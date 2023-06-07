@@ -1,0 +1,46 @@
+version: '3.7'
+
+services:
+  server:
+    build: ./server
+    container_name: "server-grpc"
+    volumes:
+      - ./server:/go_grpc
+    ports:
+      - "8080:8080"
+    tty: true
+
+  #client:
+  #  build: ./client
+  #  container_name: "client-grpc"
+  #  volumes:
+  #    - ./client:/go_grpc
+  #  tty: true
+
+  #fastapi:
+  #  container_name: api
+  #  build:
+  #    context: ./fastapi
+  #    dockerfile: ./Dockerfile
+  #  volumes:
+  #    - ./fastapi/app:/app
+  #  ports:
+  #    - 4000:4000
+  #  tty: true
+
+  envoy:
+    build:
+      context: ./envoy/
+    volumes:
+      - ./envoy/envoy.yaml:/etc/envoy/envoy.yaml
+      #- ./envoy/envoy.json:/etc/envoy/envoy.json
+    ports:
+      - "8081:8081"
+      - "3000:3000"
+
+  #locust:
+  #  build: ./locust
+  #  volumes:
+  #    - ./locust/src:/locust
+  #  ports:
+  #    - "8089:8089"
